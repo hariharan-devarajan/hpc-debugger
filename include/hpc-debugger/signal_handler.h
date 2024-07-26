@@ -14,7 +14,7 @@ void default_handler(int sig);
 class SingleHandler {
   static HandlerFunction selected_handler;
   std::shared_ptr<hpc_debugger::ConfigurationManager> configuration;
-  int print_backtrace();
+  std::string print_backtrace();
 
 public:
   SingleHandler();

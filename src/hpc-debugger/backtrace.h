@@ -16,7 +16,7 @@ public:
     configuration = hpc_debugger::Singleton<
         hpc_debugger::ConfigurationManager>::get_instance();
   }
-  int print();
+  std::string print();
 };
 } // namespace hpc_debugger
 

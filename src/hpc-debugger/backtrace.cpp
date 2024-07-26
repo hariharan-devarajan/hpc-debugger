@@ -31,16 +31,17 @@ std::string hpc_debugger::Backtrace::execute(const char *cmd) {
   return path;
 }
 
-int hpc_debugger::Backtrace::print() {
-  void *array[10];
+std::string hpc_debugger::Backtrace::print() {
+  void *array[128];
   char **strings;
   int size, i;
 
-  size = backtrace(array, 10);
+  size = backtrace(array, 128);
   strings = backtrace_symbols(array, size);
-  if (strings != NULL) {
+  std::stringstream all_stream;
 
-    printf("Obtained %d stack frames.\n", size);
+  if (strings != NULL) {
+    all_stream << "Obtained " << size << " stack frames.\n";
     for (i = 0; i < size; i++) {
 
       std::regex rgx("([a-zA-Z0-9\\/"
@@ -71,18 +72,16 @@ int hpc_debugger::Backtrace::print() {
         std::string value = execute(syscom);
         if (value.find("??") != std::string::npos) {
           // pos=0 limits the search to the prefix
-          printf("%s at %s with ptr %s\n", function_name.c_str(),
-                 executable.c_str(), function_addr.c_str());
+          all_stream << strings[i] << "\n";
         } else {
-          printf("%s\n", value.c_str());
+          all_stream << value << "\n";
         }
 
       } else {
-        printf("%s\n", strings[i]);
+        all_stream << strings[i] << "\n";
       }
     }
   }
-
   free(strings);
-  return 0;
+  return all_stream.str();
 }

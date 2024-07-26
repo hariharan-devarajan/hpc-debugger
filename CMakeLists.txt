@@ -273,7 +273,7 @@ set(HPC_DEBUGGER_PRIVATE_HEADER  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/ba
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/logging.h
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/singleton.h)
 set(HPC_DEBUGGER_PUBLIC_HEADER   ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/signal_handler.h
-                                 ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/debug.h)
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/debug.h)
 set(HPC_DEBUGGER_SRC_PRIVATE )
 
 if(HPC_DEBUGGER_BUILD_WITH_MPI)

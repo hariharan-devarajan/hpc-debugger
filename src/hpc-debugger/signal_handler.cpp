@@ -10,14 +10,14 @@ hpc_debugger::HandlerFunction hpc_debugger::SingleHandler::selected_handler =
     hpc_debugger::default_handler;
 void hpc_debugger::default_handler(int sig) {
   auto backtrace = hpc_debugger::Backtrace();
-  backtrace.print();
+  auto str = backtrace.print();
+  fprintf(stderr, "%s", str.c_str());
   exit(sig);
 }
 
-int hpc_debugger::SingleHandler::print_backtrace() {
+std::string hpc_debugger::SingleHandler::print_backtrace() {
   auto backtrace = hpc_debugger::Backtrace();
-  backtrace.print();
-  return 0;
+  return backtrace.print();
 }
 
 hpc_debugger::SingleHandler::SingleHandler() {
