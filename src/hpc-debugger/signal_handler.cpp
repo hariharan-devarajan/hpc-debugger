@@ -1,7 +1,7 @@
-#include "common/configuration_manager.h"
-#include "common/singleton.h"
-#include <hpc-debugger/signal_handler.h>
 
+#include <hpc-debugger/signal_handler.h>
+/* Internal */
+#include <hpc-debugger/common/singleton.h>
 /* Internal header */
 #include <hpc-debugger/backtrace.h>
 /* external header */
@@ -20,10 +20,7 @@ std::string hpc_debugger::SingleHandler::print_backtrace() {
   return backtrace.print();
 }
 
-hpc_debugger::SingleHandler::SingleHandler() {
-  configuration = hpc_debugger::Singleton<
-      hpc_debugger::ConfigurationManager>::get_instance();
-}
+hpc_debugger::SingleHandler::SingleHandler() {}
 
 int hpc_debugger::SingleHandler::add_handler(HandlerFunction handler) {
   hpc_debugger::SingleHandler::selected_handler = handler;
