@@ -1,0 +1,6 @@
+spack:
+  specs:
+  - cmake
+  - cpp-logger@0.0.4
+  concretizer:
+    unify: true

@@ -1,0 +1,8 @@
+include(brahma-utils)
+set(install_dir ${CMAKE_BINARY_DIR})
+if (BRAHMA_INSTALL_DEPENDENCIES) 
+set(install_dir ${CMAKE_INSTALL_PREFIX})
+endif()
+if (BRAHMA_LOGGER STREQUAL "CPP_LOGGER")
+install_external_project(cpp-logger https://github.com/hariharan-devarajan/cpp-logger.git v0.0.4 ${install_dir})
+endif()
