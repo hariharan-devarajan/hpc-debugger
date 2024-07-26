@@ -131,6 +131,8 @@ endif()
 
 if(HPC_DEBUGGER_LOGGER STREQUAL "CPP_LOGGER")
     set(HPC_DEBUGGER_LOGGER_CPP_LOGGER 1)
+else()
+    set(HPC_DEBUGGER_LOGGER_NO_LOG 1)
 endif()
 
 function(check_logger)
@@ -273,7 +275,8 @@ set(HPC_DEBUGGER_PRIVATE_HEADER  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/ba
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/logging.h
                                  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/singleton.h)
 set(HPC_DEBUGGER_PUBLIC_HEADER   ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/signal_handler.h
-                                  ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/debug.h)
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/debug.h
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/hpc-debugger.h)
 set(HPC_DEBUGGER_SRC_PRIVATE )
 
 if(HPC_DEBUGGER_BUILD_WITH_MPI)
@@ -287,7 +290,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     LINKER_LANGUAGE CXX
     VERSION ${HPC_DEBUGGER_LIBTOOL_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc_debugger/hpc_debugger.h)
+    PUBLIC_HEADER ${PROJECT_SOURCE_DIR}/include/hpc-debugger/hpc-debugger.h)
 target_compile_definitions(${PROJECT_NAME} PUBLIC HPC_DEBUGGER_HAS_CONFIG)
 hpc_debugger_install_headers("${HPC_DEBUGGER_PUBLIC_HEADER};${HPC_DEBUGGER_SRC_PRIVATE}" ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -417,9 +420,9 @@ write_basic_package_version_file(
   COMPATIBILITY SameMajorVersion)
 
 install(FILES
-        "${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/hpc_debugger/hpc_debugger_config.hpp"
+        "${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/hpc-debugger/hpc_debugger_config.hpp"
         DESTINATION
-        ${HPC_DEBUGGER_INSTALL_INCLUDE_DIR}/hpc_debugger)
+        ${HPC_DEBUGGER_INSTALL_INCLUDE_DIR}/hpc-debugger)
 
 install(EXPORT
         ${HPC_DEBUGGER_EXPORTED_TARGETS}
