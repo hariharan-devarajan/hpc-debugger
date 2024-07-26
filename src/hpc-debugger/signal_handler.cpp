@@ -1,3 +1,5 @@
+#include "common/configuration_manager.h"
+#include "common/singleton.h"
 #include <hpc-debugger/signal_handler.h>
 
 /* Internal header */
@@ -9,7 +11,7 @@ hpc_debugger::HandlerFunction hpc_debugger::SingleHandler::selected_handler =
 void hpc_debugger::default_handler(int sig) {
   auto backtrace = hpc_debugger::Backtrace();
   backtrace.print();
-  exit(0);
+  exit(sig);
 }
 
 int hpc_debugger::SingleHandler::print_backtrace() {
@@ -18,7 +20,10 @@ int hpc_debugger::SingleHandler::print_backtrace() {
   return 0;
 }
 
-hpc_debugger::SingleHandler::SingleHandler() {}
+hpc_debugger::SingleHandler::SingleHandler() {
+  configuration = hpc_debugger::Singleton<
+      hpc_debugger::ConfigurationManager>::get_instance();
+}
 
 int hpc_debugger::SingleHandler::add_handler(HandlerFunction handler) {
   hpc_debugger::SingleHandler::selected_handler = handler;

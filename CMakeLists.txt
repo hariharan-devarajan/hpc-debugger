@@ -265,9 +265,15 @@ set(HPC_DEBUGGER_MPI_SRC )
 set(HPC_DEBUGGER_MPI_INCLUDE )
 
 set(HPC_DEBUGGER_SRC  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/signal_handler.cpp
-                      ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/backtrace.cpp)
-set(HPC_DEBUGGER_PRIVATE_HEADER  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/backtrace.h)
-set(HPC_DEBUGGER_PUBLIC_HEADER        ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/signal_handler.h)
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/backtrace.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/configuration_manager.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/debug.cpp)
+set(HPC_DEBUGGER_PRIVATE_HEADER  ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/backtrace.h
+                                 ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/configuration_manager.h
+                                 ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/logging.h
+                                 ${CMAKE_CURRENT_SOURCE_DIR}/src/hpc-debugger/common/singleton.h)
+set(HPC_DEBUGGER_PUBLIC_HEADER   ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/signal_handler.h
+                                 ${CMAKE_CURRENT_SOURCE_DIR}/include/hpc-debugger/debug.h)
 set(HPC_DEBUGGER_SRC_PRIVATE )
 
 if(HPC_DEBUGGER_BUILD_WITH_MPI)
@@ -288,7 +294,15 @@ hpc_debugger_install_headers("${HPC_DEBUGGER_PUBLIC_HEADER};${HPC_DEBUGGER_SRC_P
 # Required Dependencies
 # =============================================================================
 set(DEPENDENCY_LIB )
-
+find_package(yaml-cpp REQUIRED)
+if (${yaml-cpp_FOUND})
+    message(STATUS "[HPC_DEBUGGER] found yaml-cpp at ${YAML_CPP_INCLUDE_DIR}")
+    include_directories(${YAML_CPP_INCLUDE_DIR})
+    set(YAML_CPP_LIBRARY_DIR "${YAML_CPP_CMAKE_DIR}/../../")
+    set(DEPENDENCY_LIB ${DEPENDENCY_LIB} -L${YAML_CPP_LIBRARY_DIR} ${YAML_CPP_LIBRARIES})
+else ()
+    message(FATAL_ERROR "-- [HPC_DEBUGGER] yaml-cpp is needed for ${PROJECT_NAME} build")
+endif ()
 # Optional Dependencies
 # =============================================================================
 if(HPC_DEBUGGER_BUILD_WITH_MPI)
