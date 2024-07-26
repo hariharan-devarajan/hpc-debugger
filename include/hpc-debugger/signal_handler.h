@@ -3,6 +3,9 @@
 
 #include <csignal>
 #include <functional>
+#include <memory>
+
+#include <hpc-debugger/common/configuration_manager.h>
 namespace hpc_debugger {
 typedef void (*HandlerFunction)(int);
 
@@ -10,6 +13,7 @@ void default_handler(int sig);
 
 class SingleHandler {
   static HandlerFunction selected_handler;
+  std::shared_ptr<hpc_debugger::ConfigurationManager> configuration;
   int print_backtrace();
 
 public:
